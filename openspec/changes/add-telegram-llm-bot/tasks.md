@@ -45,7 +45,7 @@
 * [x] 7.1 Verify the Telegram bot and inference service can be started as independent processes
 * [x] 7.2 Verify the Telegram process communicates with the inference service only through the HTTP API
 * [x] 7.3 Verify the inference service can be stopped and restarted independently from the Telegram bot process
-* [ ] 7.4 Verify the inference service is bound to a local or private interface and is not unintentionally exposed as a public service
+* [x] 7.4 Verify the inference service is bound to a local or private interface and is not unintentionally exposed as a public service
 
 ## 8. Integration Verification
 
