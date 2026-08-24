@@ -1,4 +1,5 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import { validateGenerateRequest } from "./validateRequest.ts";
 
 export interface GenerateResponseBody {
   text: string;
@@ -75,14 +76,14 @@ async function handleGenerate(req: IncomingMessage, res: ServerResponse, generat
     return;
   }
 
-  const prompt = extractPrompt(parsedBody);
-  if (prompt === undefined) {
-    sendJson(res, 400, { error: "Missing required field: prompt" });
+  const validationResult = validateGenerateRequest(parsedBody);
+  if (!validationResult.valid) {
+    sendJson(res, 400, { error: validationResult.error });
     return;
   }
 
   try {
-    const text = await generate(prompt);
+    const text = await generate(validationResult.prompt);
     const responseBody: GenerateResponseBody = { text };
     sendJson(res, 200, responseBody);
   } catch (error) {
@@ -98,15 +99,6 @@ function readRequestBody(req: IncomingMessage): Promise<string> {
     req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
     req.on("error", reject);
   });
-}
-
-function extractPrompt(value: unknown): string | undefined {
-  if (typeof value !== "object" || value === null || !("prompt" in value)) {
-    return undefined;
-  }
-
-  const prompt = (value as { prompt: unknown }).prompt;
-  return typeof prompt === "string" ? prompt : undefined;
 }
 
 function sendJson(res: ServerResponse, statusCode: number, body: unknown): void {
