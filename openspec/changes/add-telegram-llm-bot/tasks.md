@@ -8,7 +8,7 @@
 ## 2. Configuration
 
 * [x] 2.1 Implement configuration loading and validation for the Telegram bot process, including `TELEGRAM_BOT_TOKEN` and `LLM_INFERENCE_URL`, and verify startup fails clearly when required values are missing
-* [ ] 2.2 Implement configuration loading and validation for the inference process, including `LLM_PROVIDER`, `LLM_MODEL`, and `LLM_BASE_URL`, and verify startup fails clearly when required values are missing
+* [x] 2.2 Implement configuration loading and validation for the inference process, including `LLM_PROVIDER`, `LLM_MODEL`, and `LLM_BASE_URL`, and verify startup fails clearly when required values are missing
 * [ ] 2.3 Verify that secret values are never written to application source code or startup logs
 
 ## 3. Telegram Bot API
