@@ -1,8 +1,14 @@
 import type { TelegramApiClient } from "./telegramApi.ts";
 
+export interface TelegramMessage {
+  message_id: number;
+  chat: { id: number };
+  text?: string;
+}
+
 export interface TelegramUpdate {
   update_id: number;
-  message?: unknown;
+  message?: TelegramMessage;
 }
 
 const DEFAULT_TIMEOUT_SECONDS = 30;

@@ -16,7 +16,7 @@
 * [x] 3.1 Implement a minimal HTTP client for Telegram Bot API requests without using a Telegram SDK and verify a test API request can be executed successfully
 * [x] 3.2 Implement Telegram `getUpdates` long polling with update offset management and verify that each update is received only once
 * [x] 3.3 Implement Telegram `sendMessage` and verify that a test message can be delivered to a Telegram chat
-* [ ] 3.4 Implement extraction of the originating chat ID and text from Telegram updates and verify valid text messages are parsed correctly
+* [x] 3.4 Implement extraction of the originating chat ID and text from Telegram updates and verify valid text messages are parsed correctly
 * [ ] 3.5 Ignore updates that do not contain text messages and verify they do not reach the inference layer
 
 ## 4. LLM Inference API
