@@ -1,17 +1,18 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { InferenceBackendError } from "./errors.ts";
+import type { LlmProvider } from "./provider.ts";
 import { validateGenerateRequest } from "./validateRequest.ts";
 
 export interface GenerateResponseBody {
   text: string;
 }
 
-export type GenerateFunction = (prompt: string) => Promise<string>;
+export type GenerateFunction = LlmProvider["generate"];
 
 export interface LlmInferenceServerOptions {
   host: string;
   port: number;
-  generate: GenerateFunction;
+  provider: LlmProvider;
 }
 
 export interface LlmInferenceServer {
@@ -20,10 +21,10 @@ export interface LlmInferenceServer {
 }
 
 export function createLlmInferenceServer(options: LlmInferenceServerOptions): LlmInferenceServer {
-  const { host, port, generate } = options;
+  const { host, port, provider } = options;
 
   const server = createServer((req, res) => {
-    handleRequest(req, res, generate).catch((error: unknown) => {
+    handleRequest(req, res, provider).catch((error: unknown) => {
       console.error(
         "Unhandled error while processing request:",
         error instanceof Error ? error.message : "Unknown error",
@@ -56,7 +57,7 @@ export function createLlmInferenceServer(options: LlmInferenceServerOptions): Ll
   };
 }
 
-async function handleRequest(req: IncomingMessage, res: ServerResponse, generate: GenerateFunction): Promise<void> {
+async function handleRequest(req: IncomingMessage, res: ServerResponse, provider: LlmProvider): Promise<void> {
   if (req.url !== "/generate") {
     sendJson(res, 404, { error: "Not Found" });
     return;
@@ -67,10 +68,10 @@ async function handleRequest(req: IncomingMessage, res: ServerResponse, generate
     return;
   }
 
-  await handleGenerate(req, res, generate);
+  await handleGenerate(req, res, provider);
 }
 
-async function handleGenerate(req: IncomingMessage, res: ServerResponse, generate: GenerateFunction): Promise<void> {
+async function handleGenerate(req: IncomingMessage, res: ServerResponse, provider: LlmProvider): Promise<void> {
   let rawBody: string;
   try {
     rawBody = await readRequestBody(req);
@@ -94,7 +95,7 @@ async function handleGenerate(req: IncomingMessage, res: ServerResponse, generat
   }
 
   try {
-    const text = await generate(validationResult.prompt);
+    const text = await provider.generate(validationResult.prompt);
     const responseBody: GenerateResponseBody = { text };
     sendJson(res, 200, responseBody);
   } catch (error) {

@@ -1,12 +1,15 @@
 import { loadLlmInferenceConfig, type LlmInferenceConfig } from "./config.ts";
+import type { LlmProvider } from "./provider.ts";
 import { createLlmInferenceServer } from "./server.ts";
 
 const HOST = "127.0.0.1";
 
-// TODO: Replace with a real LLM provider selected via config.llmProvider (see phase 5).
-async function generateStub(prompt: string): Promise<string> {
-  return `Stub response for prompt: "${prompt}"`;
-}
+// TODO: Replace with a real Ollama-backed provider selected via config.llmProvider (see task 5.2).
+const stubProvider: LlmProvider = {
+  async generate(prompt: string): Promise<string> {
+    return `Stub response for prompt: "${prompt}"`;
+  },
+};
 
 async function main(): Promise<void> {
   let config: LlmInferenceConfig;
@@ -21,7 +24,7 @@ async function main(): Promise<void> {
   const server = createLlmInferenceServer({
     host: HOST,
     port: config.llmInferencePort,
-    generate: generateStub,
+    provider: stubProvider,
   });
 
   await server.listen();
