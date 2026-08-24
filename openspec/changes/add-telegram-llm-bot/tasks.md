@@ -28,7 +28,7 @@
 ## 5. LLM Provider
 
 * [x] 5.1 Define the LLM provider abstraction and verify the inference service depends only on the provider interface
-* [ ] 5.2 Implement the Ollama provider and verify it can generate a response from a configured local model
+* [x] 5.2 Implement the Ollama provider and verify it can generate a response from a configured local model
 * [ ] 5.3 Configure the Ollama model through `LLM_MODEL` and verify changing the configured model does not require source code changes
 * [ ] 5.4 Verify that the inference API does not expose Ollama-specific implementation details to the Telegram bot
 
