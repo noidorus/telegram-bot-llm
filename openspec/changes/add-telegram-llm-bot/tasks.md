@@ -54,5 +54,5 @@
 * [x] 8.3 Start the Telegram bot and send a text message through Telegram, verifying the complete Telegram → inference → LLM → Telegram flow
 * [x] 8.4 Send multiple independent messages and verify no previous message is included as context
 * [x] 8.5 Stop the inference service and verify the Telegram bot reports the failure without terminating
-* [ ] 8.6 Run the project validation and TypeScript compilation successfully
+* [x] 8.6 Run the project validation and TypeScript compilation successfully
 
