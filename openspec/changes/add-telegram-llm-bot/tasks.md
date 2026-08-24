@@ -1,7 +1,7 @@
 ## 1. Project Setup
 
 * [x] 1.1 Initialize the Node.js TypeScript project structure and verify that the TypeScript project compiles successfully
-* [ ] 1.2 Configure the project scripts for running the Telegram bot process and LLM inference process separately, and verify both commands are available
+* [x] 1.2 Configure the project scripts for running the Telegram bot process and LLM inference process separately, and verify both commands are available
 * [ ] 1.3 Create `.env.example` with all required configuration variables and verify that no real secrets are present
 * [ ] 1.4 Add `.env` and other local secret files to `.gitignore` and verify they are ignored by Git
 
