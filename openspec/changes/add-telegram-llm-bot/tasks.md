@@ -23,7 +23,7 @@
 
 * [x] 4.1 Implement the inference HTTP server with a `POST /generate` endpoint and verify it accepts a prompt and returns generated text
 * [x] 4.2 Implement request validation for the inference endpoint and verify invalid requests return an appropriate error response
-* [ ] 4.3 Implement structured error responses for unavailable or failed inference backends and verify the inference process remains running after an inference failure
+* [x] 4.3 Implement structured error responses for unavailable or failed inference backends and verify the inference process remains running after an inference failure
 
 ## 5. LLM Provider
 

@@ -1,4 +1,5 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import { InferenceBackendError } from "./errors.ts";
 import { validateGenerateRequest } from "./validateRequest.ts";
 
 export interface GenerateResponseBody {
@@ -22,7 +23,17 @@ export function createLlmInferenceServer(options: LlmInferenceServerOptions): Ll
   const { host, port, generate } = options;
 
   const server = createServer((req, res) => {
-    void handleRequest(req, res, generate);
+    handleRequest(req, res, generate).catch((error: unknown) => {
+      console.error(
+        "Unhandled error while processing request:",
+        error instanceof Error ? error.message : "Unknown error",
+      );
+      if (!res.headersSent) {
+        sendJson(res, 500, { error: "Internal server error" });
+      } else {
+        res.end();
+      }
+    });
   });
 
   return {
@@ -87,6 +98,12 @@ async function handleGenerate(req: IncomingMessage, res: ServerResponse, generat
     const responseBody: GenerateResponseBody = { text };
     sendJson(res, 200, responseBody);
   } catch (error) {
+    if (error instanceof InferenceBackendError) {
+      console.error("LLM inference backend unavailable:", error.message);
+      sendJson(res, 502, { error: "Inference backend is unavailable" });
+      return;
+    }
+
     console.error("LLM generation failed:", error instanceof Error ? error.message : "Unknown error");
     sendJson(res, 500, { error: "Failed to generate response" });
   }
