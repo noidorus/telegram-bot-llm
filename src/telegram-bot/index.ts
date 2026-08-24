@@ -1,6 +1,7 @@
 import { loadTelegramBotConfig, type TelegramBotConfig } from "./config.ts";
 import { createInferenceClient } from "./inferenceClient.ts";
 import { handleTelegramUpdate } from "./handleUpdate.ts";
+import { sendTelegramMessage } from "./sendMessage.ts";
 import { createTelegramApiClient } from "./telegramApi.ts";
 import { pollUpdates } from "./updates.ts";
 
@@ -23,8 +24,7 @@ async function main(): Promise<void> {
   await pollUpdates(telegramApiClient, (update) =>
     handleTelegramUpdate(update, async (parsedMessage) => {
       const text = await inferenceClient.generate(parsedMessage.text);
-      // TODO: send response back to Telegram chat (see task 6.2)
-      console.log(`Inference response for chat ${parsedMessage.chatId}: ${text}`);
+      await sendTelegramMessage(telegramApiClient, parsedMessage.chatId, text);
     }),
   );
 }
