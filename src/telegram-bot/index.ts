@@ -2,7 +2,7 @@ import { loadTelegramBotConfig, type TelegramBotConfig } from "./config.ts";
 import { createInferenceClient, type InferenceClient } from "./inferenceClient.ts";
 import { handleTelegramUpdate } from "./handleUpdate.ts";
 import type { ParsedTextMessage } from "./parseMessage.ts";
-import { sendTelegramMessage } from "./sendMessage.ts";
+import { safeSendTelegramMessage } from "./sendMessage.ts";
 import { createTelegramApiClient, type TelegramApiClient } from "./telegramApi.ts";
 import { pollUpdates } from "./updates.ts";
 
@@ -11,9 +11,11 @@ const INFERENCE_FAILURE_NOTICE = "Не удалось получить отве�
 /**
  * Generates a response for one Telegram text message and sends it back.
  * If inference fails, the technical error is logged and the user receives a
- * generic failure notice instead (see task 6.4); the caller (`pollUpdates`)
- * is never reached by an inference error, so a single failed message cannot
- * stop the bot from processing subsequent updates.
+ * generic failure notice instead (see task 6.4). Both the success and
+ * fallback replies are sent through `safeSendTelegramMessage`, which itself
+ * catches and logs Telegram API failures (see task 6.5), so neither an
+ * inference error nor a Telegram `sendMessage` error can stop the bot from
+ * processing subsequent updates.
  */
 async function handleTextMessage(
   telegramApiClient: TelegramApiClient,
@@ -26,19 +28,11 @@ async function handleTextMessage(
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown inference error";
     console.error(`Inference request failed for chat ${parsedMessage.chatId}: ${message}`);
-
-    try {
-      await sendTelegramMessage(telegramApiClient, parsedMessage.chatId, INFERENCE_FAILURE_NOTICE);
-    } catch (sendError) {
-      const sendErrorMessage = sendError instanceof Error ? sendError.message : "Unknown error";
-      console.error(
-        `Failed to send inference failure notice to chat ${parsedMessage.chatId}: ${sendErrorMessage}`,
-      );
-    }
+    await safeSendTelegramMessage(telegramApiClient, parsedMessage.chatId, INFERENCE_FAILURE_NOTICE);
     return;
   }
 
-  await sendTelegramMessage(telegramApiClient, parsedMessage.chatId, responseText);
+  await safeSendTelegramMessage(telegramApiClient, parsedMessage.chatId, responseText);
 }
 
 async function main(): Promise<void> {

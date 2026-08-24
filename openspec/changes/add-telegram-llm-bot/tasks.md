@@ -38,7 +38,7 @@
 * [x] 6.2 Send the generated inference response back to the originating Telegram chat and verify the user receives the model response
 * [x] 6.3 Verify that each Telegram message is sent to inference independently without previous conversation history
 * [x] 6.4 Handle inference service failures in the Telegram bot and verify the bot continues processing subsequent messages
-* [ ] 6.5 Handle Telegram API failures without terminating the polling loop and verify subsequent updates can still be processed
+* [x] 6.5 Handle Telegram API failures without terminating the polling loop and verify subsequent updates can still be processed
 
 ## 7. Process Separation
 
