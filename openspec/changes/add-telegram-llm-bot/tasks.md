@@ -53,6 +53,6 @@
 * [x] 8.2 Start the inference process and verify `POST /generate` returns a valid response
 * [x] 8.3 Start the Telegram bot and send a text message through Telegram, verifying the complete Telegram → inference → LLM → Telegram flow
 * [x] 8.4 Send multiple independent messages and verify no previous message is included as context
-* [ ] 8.5 Stop the inference service and verify the Telegram bot reports the failure without terminating
+* [x] 8.5 Stop the inference service and verify the Telegram bot reports the failure without terminating
 * [ ] 8.6 Run the project validation and TypeScript compilation successfully
 
