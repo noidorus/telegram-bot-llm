@@ -50,7 +50,7 @@
 ## 8. Integration Verification
 
 * [x] 8.1 Start Ollama with a configured test model and verify the model is available
-* [ ] 8.2 Start the inference process and verify `POST /generate` returns a valid response
+* [x] 8.2 Start the inference process and verify `POST /generate` returns a valid response
 * [ ] 8.3 Start the Telegram bot and send a text message through Telegram, verifying the complete Telegram → inference → LLM → Telegram flow
 * [ ] 8.4 Send multiple independent messages and verify no previous message is included as context
 * [ ] 8.5 Stop the inference service and verify the Telegram bot reports the failure without terminating
