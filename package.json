@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "start:telegram-bot": "node --experimental-strip-types src/telegram-bot/index.ts",
-    "start:llm-inference": "node --experimental-strip-types src/llm-inference/index.ts"
+    "start:telegram-bot": "node --env-file=.env --experimental-strip-types src/telegram-bot/index.ts",
+    "start:llm-inference": "node --env-file=.env --experimental-strip-types src/llm-inference/index.ts"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
