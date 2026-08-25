@@ -1,0 +1,18 @@
+{
+  "name": "telegram-llm-bot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start:telegram-bot": "node --env-file=.env --experimental-strip-types src/telegram-bot/index.ts",
+    "start:llm-inference": "node --env-file=.env --experimental-strip-types src/llm-inference/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "typescript": "^5.9.2"
+  }
+}
